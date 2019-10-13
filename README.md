@@ -1,5 +1,5 @@
 # qfx_fixer
-Script to fix transactions in QFX file downloaded from Capital One
+Script to fix transactions in QFX file downloaded from Capital One for import into Microsoft Money
 
 ## Requirements
 - python 3.7+
