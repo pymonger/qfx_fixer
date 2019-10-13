@@ -10,7 +10,11 @@ import traceback
 import argparse
 import json
 import logging
+from io import BytesIO
 from lxml.etree import SubElement
+
+from ofxtools import OFXClient
+from ofxtools.Parser import OFXTree
 
 from utils import getXmlEtree, xpath, pprintXml
 
@@ -41,7 +45,8 @@ def main(qfx_file_in, qfx_file_out):
     for trn in doc.xpath('.//STMTTRN', namespaces=ns):
         logger.info("#" * 80)
         logger.info("trn: {}".format(pprintXml(trn).decode()))
-        memo = xpath(trn, 'MEMO/text()', ns)
+        memo_elt = xpath(trn, 'MEMO', ns)
+        memo = memo_elt.text[:32]
         logger.info("memo: {}".format(memo))
         logger.info("type memo: {}".format(type(memo)))
 
@@ -52,6 +57,7 @@ def main(qfx_file_in, qfx_file_out):
             logger.info("name: {}".format(name))
             name_elt = SubElement(trn, "NAME")
             name_elt.text = name
+            trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
 
@@ -60,6 +66,7 @@ def main(qfx_file_in, qfx_file_out):
         if match:
             name_elt = SubElement(trn, "NAME")
             name_elt.text = "Capital One"
+            trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
 
@@ -68,6 +75,7 @@ def main(qfx_file_in, qfx_file_out):
         if match:
             name_elt = SubElement(trn, "NAME")
             name_elt.text = match.group(0)
+            trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
 
@@ -76,10 +84,16 @@ def main(qfx_file_in, qfx_file_out):
         raise RuntimeError("Unhandled transaction.")
 
     # write output file
+    v2_message = '<?xml version="1.0" encoding="utf-8"?>\n'
+    v2_message += '<?OFX OFXHEADER="200" VERSION="202" SECURITY="NONE" OLDFILEUID="NONE" NEWFILEUID="NONE"?>\n'
+    v2_message += pprintXml(doc).decode()
+    parser = OFXTree()
+    parser.parse(BytesIO(v2_message.encode()))
+    ofx = parser.convert()
+    client = OFXClient(None)
+    v1_message = client.serialize(ofx, version=102, prettyprint=True, close_elements=False).decode()
     with open(qfx_file_out, 'w') as f:
-        f.write('<?xml version="1.0" encoding="utf-8"?>\n')
-        f.write('<?OFX OFXHEADER="200" VERSION="202" SECURITY="NONE" OLDFILEUID="NONE" NEWFILEUID="NONE"?>\n')
-        f.write(pprintXml(doc).decode())
+        f.write(v1_message)
 
 
 if __name__ == '__main__':
