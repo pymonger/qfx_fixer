@@ -108,7 +108,7 @@ def main(qfx_file_in, qfx_file_out):
             continue
 
         # zelle
-        match = re.search(r'Zelle money (received from|sent to|returned)', memo)
+        match = re.search(r'Zelle money (received from|sent to|returned).*', memo)
         if match:
             name_elt = SubElement(trn, "NAME")
             name_elt.text = match.group(0)
