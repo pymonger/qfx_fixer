@@ -108,7 +108,7 @@ def main(qfx_file_in, qfx_file_out):
             continue
 
         # zelle
-        match = re.search(r'Zelle money (received from|sent to|returned).*', memo)
+        match = re.search(r'(Zelle money|Money) (received from|sent to|returned).*', memo)
         if match:
             name_elt = SubElement(trn, "NAME")
             name_elt.text = match.group(0)
@@ -127,6 +127,15 @@ def main(qfx_file_in, qfx_file_out):
 
         # checkbook order
         match = re.search(r'Checkbook Order', memo)
+        if match:
+            name_elt = SubElement(trn, "NAME")
+            name_elt.text = match.group(0)
+            trn.remove(memo_elt)
+            logger.info("trn: {}".format(pprintXml(trn).decode()))
+            continue
+
+        # checkbook order
+        match = re.search(r'purchase eth', memo)
         if match:
             name_elt = SubElement(trn, "NAME")
             name_elt.text = match.group(0)
