@@ -29,7 +29,7 @@ BASE_PATH = os.path.dirname(__file__)
 
 # compiled regexes
 INT_RE = re.compile(r'^Monthly Interest Paid', re.I)
-TRN_RE = re.compile(r'^(?:Withdrawal\s+from|Debit\s+Card\s+Purchase\s+-|Deposit\s+from|ATM\s+Withdrawal\s+-)\s+(.*)$', re.I)
+TRN_RE = re.compile(r'^(?:Withdrawal\s+from|Debit\s+Card\s+Purchase\s+-|Deposit\s+from|ATM\s+Withdrawal\s+-|Digital\s+Card\s+Purchase\s+-)\s+(.*)$', re.I)
 CHK_RE = re.compile(r'^Check\s+#\d+\s+Cashed', re.I)
 PRENOTE_RE = re.compile(r'^Prenote', re.I)
 
@@ -136,6 +136,24 @@ def main(qfx_file_in, qfx_file_out):
 
         # checkbook order
         match = re.search(r'purchase eth', memo)
+        if match:
+            name_elt = SubElement(trn, "NAME")
+            name_elt.text = match.group(0)
+            trn.remove(memo_elt)
+            logger.info("trn: {}".format(pprintXml(trn).decode()))
+            continue
+
+        # checkbook order
+        match = re.search(r'cover alaska', memo)
+        if match:
+            name_elt = SubElement(trn, "NAME")
+            name_elt.text = match.group(0)
+            trn.remove(memo_elt)
+            logger.info("trn: {}".format(pprintXml(trn).decode()))
+            continue
+
+        # checkbook order
+        match = re.search(r'tax refund', memo)
         if match:
             name_elt = SubElement(trn, "NAME")
             name_elt.text = match.group(0)
