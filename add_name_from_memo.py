@@ -29,8 +29,9 @@ BASE_PATH = os.path.dirname(__file__)
 
 # compiled regexes
 INT_RE = re.compile(r'^Monthly Interest Paid', re.I)
-TRN_RE = re.compile(r'^(?:Withdrawal\s+from|Debit\s+Card\s+Purchase\s+-|Deposit\s+from|ATM\s+Withdrawal\s+-|Digital\s+Card\s+Purchase\s+-)\s+(.*)$', re.I)
+TRN_RE = re.compile(r'^(?:Withdrawal\s+from|Debit\s+Card\s+Purchase\s+-|Deposit\s+from|ATM\s+Withdrawal\s+-|Digital\s+Card\s+Purchase\s+-|Miscellaneous)\s+(.*)$', re.I)
 CHK_RE = re.compile(r'^Check\s+#\d+\s+Cashed', re.I)
+MOBILE_DEPOSIT_RE = re.compile(r'Check\s+Deposit\s+\(Mobile\)', re.I)
 PRENOTE_RE = re.compile(r'^Prenote', re.I)
 
 
@@ -47,14 +48,14 @@ def main(qfx_file_in, qfx_file_out):
         logger.info("#" * 80)
         logger.info("trn: {}".format(pprintXml(trn).decode()))
         memo_elt = xpath(trn, 'MEMO', ns)
-        memo = memo_elt.text[:32]
+        memo = memo_elt.text
         logger.info("memo: {}".format(memo))
         logger.info("type memo: {}".format(type(memo)))
 
         # extract name
         match = TRN_RE.search(memo)
         if match:
-            name = match.group(1)
+            name = match.group(1)[0:31]
             logger.info("name: {}".format(name))
             name_elt = SubElement(trn, "NAME")
             name_elt.text = name
@@ -75,7 +76,16 @@ def main(qfx_file_in, qfx_file_out):
         match = CHK_RE.search(memo)
         if match:
             name_elt = SubElement(trn, "NAME")
-            name_elt.text = match.group(0)
+            name_elt.text = match.group(0)[0:31]
+            trn.remove(memo_elt)
+            logger.info("trn: {}".format(pprintXml(trn).decode()))
+            continue
+
+        # mobile deposit
+        match = MOBILE_DEPOSIT_RE.search(memo)
+        if match:
+            name_elt = SubElement(trn, "NAME")
+            name_elt.text = match.group(0)[0:31]
             trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
@@ -84,16 +94,7 @@ def main(qfx_file_in, qfx_file_out):
         match = PRENOTE_RE.search(memo)
         if match:
             name_elt = SubElement(trn, "NAME")
-            name_elt.text = match.group(0)
-            trn.remove(memo_elt)
-            logger.info("trn: {}".format(pprintXml(trn).decode()))
-            continue
-
-        # refund
-        match = re.search(r'LMU', memo)
-        if match:
-            name_elt = SubElement(trn, "NAME")
-            name_elt.text = match.group(0)
+            name_elt.text = match.group(0)[0:31]
             trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
@@ -102,7 +103,7 @@ def main(qfx_file_in, qfx_file_out):
         match = re.search(r'360 Checking', memo)
         if match:
             name_elt = SubElement(trn, "NAME")
-            name_elt.text = match.group(0)
+            name_elt.text = match.group(0)[0:31]
             trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
@@ -111,7 +112,7 @@ def main(qfx_file_in, qfx_file_out):
         match = re.search(r'(Zelle money|Money) (received from|sent to|returned).*', memo)
         if match:
             name_elt = SubElement(trn, "NAME")
-            name_elt.text = match.group(0)
+            name_elt.text = match.group(0)[0:31]
             trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
@@ -120,7 +121,7 @@ def main(qfx_file_in, qfx_file_out):
         match = re.search(r'Withdrawal to', memo)
         if match:
             name_elt = SubElement(trn, "NAME")
-            name_elt.text = match.group(0)
+            name_elt.text = match.group(0)[0:31]
             trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
@@ -129,34 +130,25 @@ def main(qfx_file_in, qfx_file_out):
         match = re.search(r'Checkbook Order', memo)
         if match:
             name_elt = SubElement(trn, "NAME")
-            name_elt.text = match.group(0)
+            name_elt.text = match.group(0)[0:31]
             trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
 
-        # checkbook order
-        match = re.search(r'purchase eth', memo)
+        # deposit
+        match = re.search(r'Deposit from MONEY', memo)
         if match:
             name_elt = SubElement(trn, "NAME")
-            name_elt.text = match.group(0)
+            name_elt.text = match.group(0)[0:31]
             trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
 
-        # checkbook order
-        match = re.search(r'cover alaska', memo)
+        # deposit
+        match = re.search(r'Deposit from Savings', memo)
         if match:
             name_elt = SubElement(trn, "NAME")
-            name_elt.text = match.group(0)
-            trn.remove(memo_elt)
-            logger.info("trn: {}".format(pprintXml(trn).decode()))
-            continue
-
-        # checkbook order
-        match = re.search(r'tax refund', memo)
-        if match:
-            name_elt = SubElement(trn, "NAME")
-            name_elt.text = match.group(0)
+            name_elt.text = match.group(0)[0:31]
             trn.remove(memo_elt)
             logger.info("trn: {}".format(pprintXml(trn).decode()))
             continue
