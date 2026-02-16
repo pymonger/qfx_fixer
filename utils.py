@@ -1,34 +1,35 @@
 #!/usr/bin/env python
 import os
-import sys
 import re
-import json
 from io import BytesIO
-from lxml.etree import XMLParser, parse, tostring
+from typing import Any, Optional
+from urllib.request import urlopen
+
+from lxml.etree import XMLParser, _Element, parse, tostring
 
 
-def getXmlEtree(xml):
-    """Return a tuple of [lxml etree element, prefix->namespace dict].
-    """
+def getXmlEtree(xml: str) -> tuple[_Element, dict[str, str]]:
+    """Return a tuple of [lxml etree element, prefix->namespace dict]."""
 
     parser = XMLParser(remove_blank_text=True)
     if xml.startswith('<?xml') or xml.startswith('<'):
-        return (parse(BytesIO(xml), parser).getroot(),
+        return (parse(BytesIO(xml.encode()), parser).getroot(),
                 getNamespacePrefixDict(xml))
     else:
         if os.path.isfile(xml):
-            xmlStr = open(xml).read()
+            with open(xml) as f:
+                xmlStr = f.read()
         else:
-            xmlStr = urlopen(xml).read()
+            xmlStr = urlopen(xml).read().decode()
         return (parse(BytesIO(xmlStr.encode()), parser).getroot(),
                 getNamespacePrefixDict(xmlStr))
 
 
-def getNamespacePrefixDict(xmlString):
+def getNamespacePrefixDict(xmlString: str) -> dict[str, str]:
     """Take an xml string and return a dict of namespace prefixes to
     namespaces mapping."""
 
-    nss = {}
+    nss: dict[str, str] = {}
     defCnt = 0
     matches = re.findall(r'\s+xmlns:?(\w*?)\s*=\s*[\'"](.*?)[\'"]', xmlString)
     for match in matches:
@@ -41,11 +42,10 @@ def getNamespacePrefixDict(xmlString):
     return nss
 
 
-def xpath(elt, xp, ns, default=None):
-    """
-    Run an xpath on an element and return the first result.  If no results
-    were returned then return the default value.
-    """
+def xpath(elt: _Element, xp: str, ns: dict[str, str],
+          default: Optional[Any] = None) -> Any:
+    """Run an xpath on an element and return the first result. If no results
+    were returned then return the default value."""
 
     res = elt.xpath(xp, namespaces=ns)
     if len(res) == 0:
@@ -54,7 +54,7 @@ def xpath(elt, xp, ns, default=None):
         return res[0]
 
 
-def pprintXml(et):
+def pprintXml(et: _Element) -> bytes:
     """Return pretty printed string of xml element."""
 
     return tostring(et, pretty_print=True)
