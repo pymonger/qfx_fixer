@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?OFX OFXHEADER="200" VERSION="202" SECURITY="NONE" OLDFILEUID="NONE" NEWFILEUID="NONE"?>
+<OFX>
+  <SIGNONMSGSRSV1>
+    <SONRS>
+      <STATUS>
+        <CODE>0</CODE>
+        <SEVERITY>INFO</SEVERITY>
+      </STATUS>
+      <DTSERVER>20191004133818.472</DTSERVER>
+      <LANGUAGE>ENG</LANGUAGE>
+      <FI>
+        <ORG>Capital One Bank</ORG>
+        <FID>1001</FID>
+      </FI>
+      <INTU.BID>17410</INTU.BID>
+    </SONRS>
+  </SIGNONMSGSRSV1>
+  <BANKMSGSRSV1>
+    <STMTTRNRS>
+      <TRNUID>0</TRNUID>
+      <STATUS>
+        <CODE>0</CODE>
+        <SEVERITY>INFO</SEVERITY>
+      </STATUS>
+      <STMTRS>
+        <CURDEF>USD</CURDEF>
+        <BANKACCTFROM>
+          <BANKID>031176110</BANKID>
+          <ACCTID>1684</ACCTID>
+          <ACCTTYPE>CHECKING</ACCTTYPE>
+        </BANKACCTFROM>
+        <BANKTRANLIST>
+          <DTSTART>20190919000000.000</DTSTART>
+          <DTEND>20191004000000.000</DTEND>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20191004000000.000</DTPOSTED>
+            <TRNAMT>2901.23</TRNAMT>
+            <FITID>201910042666</FITID>
+            <MEMO>Deposit from CALTECH/JPL SALARY</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20191003000000.000</DTPOSTED>
+            <TRNAMT>-492.95</TRNAMT>
+            <FITID>201910032664</FITID>
+            <MEMO>Debit Card Purchase - GEICO AUTO 800 841 3000 DC</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20190930000000.000</DTPOSTED>
+            <TRNAMT>0.37</TRNAMT>
+            <FITID>201909302663</FITID>
+            <MEMO>Monthly Interest Paid</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190924000000.000</DTPOSTED>
+            <TRNAMT>-33.91</TRNAMT>
+            <FITID>201909242662</FITID>
+            <MEMO>Withdrawal from PAYPAL to GERALD MANIPON INST XFER</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190924000000.000</DTPOSTED>
+            <TRNAMT>-55.61</TRNAMT>
+            <FITID>201909242661</FITID>
+            <MEMO>Check #477 Cashed</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190923000000.000</DTPOSTED>
+            <TRNAMT>-1754.26</TRNAMT>
+            <FITID>201909232660</FITID>
+            <MEMO>Withdrawal from CHASE CREDIT CRD EPAY</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190923000000.000</DTPOSTED>
+            <TRNAMT>-272.06</TRNAMT>
+            <FITID>201909232659</FITID>
+            <MEMO>Withdrawal from BARCLAYCARD US CREDITCARD</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190923000000.000</DTPOSTED>
+            <TRNAMT>-246.28</TRNAMT>
+            <FITID>201909232658</FITID>
+            <MEMO>Withdrawal from DEPT EDUCATION STUDENT LN</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190923000000.000</DTPOSTED>
+            <TRNAMT>-200</TRNAMT>
+            <FITID>201909232657</FITID>
+            <MEMO>Withdrawal from BEST BUY PAYMENT</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190923000000.000</DTPOSTED>
+            <TRNAMT>-194.31</TRNAMT>
+            <FITID>201909232656</FITID>
+            <MEMO>Withdrawal from CHASE CREDIT CRD EPAY</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190923000000.000</DTPOSTED>
+            <TRNAMT>-151.05</TRNAMT>
+            <FITID>201909232655</FITID>
+            <MEMO>Withdrawal from DEPT EDUCATION STUDENT LN</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190923000000.000</DTPOSTED>
+            <TRNAMT>-142.94</TRNAMT>
+            <FITID>201909232654</FITID>
+            <MEMO>Withdrawal from DEPT EDUCATION STUDENT LN</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190923000000.000</DTPOSTED>
+            <TRNAMT>-109.73</TRNAMT>
+            <FITID>201909232653</FITID>
+            <MEMO>Withdrawal from DEPT EDUCATION STUDENT LN</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190923000000.000</DTPOSTED>
+            <TRNAMT>-106.16</TRNAMT>
+            <FITID>201909232652</FITID>
+            <MEMO>Withdrawal from CALIFORNIA WATER CALWATER</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20190921000000.000</DTPOSTED>
+            <TRNAMT>-100</TRNAMT>
+            <FITID>201909212651</FITID>
+            <MEMO>ATM Withdrawal - CARDTRONICS C2SJ VSD38839 CARSON, CA</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>CREDIT</TRNTYPE>
+            <DTPOSTED>20190920000000.000</DTPOSTED>
+            <TRNAMT>2901.23</TRNAMT>
+            <FITID>201909202650</FITID>
+            <MEMO>Deposit from CALTECH/JPL SALARY</MEMO>
+          </STMTTRN>
+        </BANKTRANLIST>
+        <LEDGERBAL>
+          <BALAMT>3486.41</BALAMT>
+          <DTASOF>20191004133818.472</DTASOF>
+        </LEDGERBAL>
+      </STMTRS>
+    </STMTTRNRS>
+  </BANKMSGSRSV1>
+</OFX>
